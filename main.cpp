@@ -53,6 +53,7 @@ void createInstructors(Instructor instructors[], int numInsts) {
             instructors[j].setUserName(username);
             instructors[j].setPassword(password);
             instructors[j].setInstructorName(fname, lname);
+            cout << instructors[j].getInstructorName() << endl;
             j = j + 1;
         }
     }
@@ -98,58 +99,61 @@ int instructorAccount(Instructor instructors[], Student students[], int numInsts
                             return 0;
                         }
                     } else if ( query == 2) {
-                        int gradeType;
-                        cout << "Grade types,\n\t1 - Project grade\n\t2 - Quiz grade\n\t3 - Midterm grade\n\t4 - Final grade\n\t5 - Overall grade\nSelect a grade type to view stats: ";
-                        cin >> gradeType;
-                        if (gradeType == 1) {
-                            cout << "Overall grade stats,\nmin\t";
-                            inst.getMinStudent(students, 1, numStuds);
-                            cout << "max\t";
-                            inst.getMaxStudent(students, 1, numStuds);
-                            cout << "avg\t";
-                            inst.getAvg(students, 1, numStuds);
-                            return 0;
-                        } else if (gradeType == 2) {
-                            cout << "Overall grade stats,\nmin\t";
-                            inst.getMinStudent(students, 2, numStuds);
-                            cout << "max\t";
-                            inst.getMaxStudent(students, 2, numStuds);
-                            cout << "avg\t";
-                            inst.getAvg(students, 2, numStuds);
-                            return 0;
-                        } else if (gradeType == 3) {
-                            cout << "Overall grade stats,\nmin\t";
-                            inst.getMinStudent(students, 3, numStuds);
-                            cout << "max\t";
-                            inst.getMaxStudent(students, 3, numStuds);
-                            cout << "avg\t";
-                            inst.getAvg(students, 3, numStuds);
-                            return 0;
-                        } else if (gradeType == 4) {
-                            cout << "Overall grade stats,\nmin\t";
-                            inst.getMinStudent(students, 4, numStuds);
-                            cout << "max\t";
-                            inst.getMaxStudent(students, 4, numStuds);
-                            cout << "avg\t";
-                            inst.getAvg(students, 4, numStuds);
-                            return 0;
-                        } else if (gradeType == 5) {
-                            cout << "Overall grade stats,\nmin\t";
-                            inst.getMinStudent(students, 5, numStuds);
-                            cout << "max\t";
-                            inst.getMaxStudent(students, 5, numStuds);
-                            cout << "avg\t";
-                            inst.getAvg(students, 5, numStuds);
-                            return 0;
-                        } else {
-                            cout << "Invalid option. Please enter a valid option." << endl;
-                            cin.clear();
-                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        while (1) {
+                            int gradeType;
+                            cout << "Grade types,\n\t1 - Project grade\n\t2 - Quiz grade\n\t3 - Midterm grade\n\t4 - Final grade\n\t5 - Overall grade\nSelect a grade type to view stats: ";
+                            cin >> gradeType;
+                            if (gradeType == 1) {
+                                cout << "Overall grade stats,\nmin\t";
+                                inst.getMinStudent(students, 1, numStuds);
+                                cout << "max\t";
+                                inst.getMaxStudent(students, 1, numStuds);
+                                cout << "avg\t";
+                                inst.getAvg(students, 1, numStuds);
+                                return 0;
+                            } else if (gradeType == 2) {
+                                cout << "Overall grade stats,\nmin\t";
+                                inst.getMinStudent(students, 2, numStuds);
+                                cout << "max\t";
+                                inst.getMaxStudent(students, 2, numStuds);
+                                cout << "avg\t";
+                                inst.getAvg(students, 2, numStuds);
+                                return 0;
+                            } else if (gradeType == 3) {
+                                cout << "Overall grade stats,\nmin\t";
+                                inst.getMinStudent(students, 3, numStuds);
+                                cout << "max\t";
+                                inst.getMaxStudent(students, 3, numStuds);
+                                cout << "avg\t";
+                                inst.getAvg(students, 3, numStuds);
+                                return 0;
+                            } else if (gradeType == 4) {
+                                cout << "Overall grade stats,\nmin\t";
+                                inst.getMinStudent(students, 4, numStuds);
+                                cout << "max\t";
+                                inst.getMaxStudent(students, 4, numStuds);
+                                cout << "avg\t";
+                                inst.getAvg(students, 4, numStuds);
+                                return 0;
+                            } else if (gradeType == 5) {
+                                cout << "Overall grade stats,\nmin\t";
+                                inst.getMinStudent(students, 5, numStuds);
+                                cout << "max\t";
+                                inst.getMaxStudent(students, 5, numStuds);
+                                cout << "avg\t";
+                                inst.getAvg(students, 5, numStuds);
+                                return 0;
+                            } else {
+                                cout << "Invalid option. Please enter a valid option." << endl;
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                            }
                         }
                     } else {
                         cout << "Invalid option. Please enter a valid option." << endl;
                         cin.clear();
                         cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
                     } // instructor decision loop.
                 }
             }
