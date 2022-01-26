@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <cstring>
+#include <limits>
 #include "Student.h"
 #include "Instructor.h"
 
@@ -22,10 +23,12 @@ void createStudents() {
     ifstream sFile ("students.txt");
 
     if (sFile.is_open()) {
+
         string username, password, fname, lname;
         int pgrade, qgrade, mgrade, fgrade;
 
-        while (sFile >> username >> password >> fname >> lname >> pgrade >> qgrade >> mgrade >> fgrade && i++ < 20) {
+        while (sFile >> username >> password >> fname >> lname >> pgrade >>
+               qgrade >> mgrade >> fgrade && i <= 20) {
             students[i].setUserName(username);
             students[i].setPassword(password);
             students[i].setStudentName(fname, lname);
@@ -33,29 +36,28 @@ void createStudents() {
             students[i].setQuizGrade(qgrade);
             students[i].setMidtermGrade(mgrade);
             students[i].setFinalGrade(fgrade);
-            cout << "Student " << i << " created." << endl;
-            cout << username << password << fname << " " << lname << endl;
-            cout << "student " << i << "'s username : "<<  students[i].getUserName() << endl;
+            i = i + 1;
         }
     }
+    sFile.close();
 
 } // createStudents
 
 void createInstructors() {
 
-    int i = 0;
+    int j = 0;
     ifstream iFile("instructors.txt");
-    if (!iFile) {
-        perror("File error: ");
-        system("pause");
-    }
+
     if (iFile.is_open()) {
-        string username, password, name;
-        while(iFile >> username >> password >> name && i < 3) {
-            instructors[i].setUserName(username);
-            instructors[i].setPassword(password);
-            instructors[i].setInstructorName(name);
-            cout << "creating teacher " << i << endl;
+        string username, password, fname, lname;
+        while(iFile >> username >> password >> fname >> lname && j <= 3) {
+            instructors[j].setUserName(username);
+            instructors[j].setPassword(password);
+            instructors[j].setInstructorName(fname, lname);
+            cout << "creating teacher " << j << endl;
+            cout << instructors[j].getUserName() << endl;
+            j = j + 1;
+            //cout << username << " " << password << endl;
         }
     }
 
@@ -64,8 +66,12 @@ void createInstructors() {
 /* The method to run if an instructor account is selected. */
 int instructorAccount() {
 
-    string iUser, iPass;
+    Student stu;
+    Instructor inst;
+    string iUser, iPass, sUser;
+    int query;
 
+    // login loop
     cout << "Enter credentials to login, \n\tEnter username: ";
     cin >> iUser;
     cout << "\tEnter password: ";
@@ -74,11 +80,87 @@ int instructorAccount() {
     while(1) {
         for (int i = 0; i < 3; i++) {
             if (instructors[i].login(iUser, iPass)) {
+                inst = instructors[i];
+                cout << "You are now logged in as instructor " << inst.getInstructorName()
+                     << "." << endl;
                 while(1) {
-                    cout << "Query options,\n\t1 - view grades of a student\n\t2 - view stats" << endl;
+                    cout << "Query options,\n\t1 - view grades of a student\n\t2 - view stats"
+                         << endl;
+                    cout << "Enter option number: ";
+                    cin >> query;
+                    if (query == 1) {
+                        cout << "Enter student username to view grades: ";
+                        cin >> sUser;
+                        stu = inst.getStudent(students, sUser);
+                        if (stu.isSet()) {
+                            cout << "\tStudent name: " << stu.getStudentName() << endl;
+                            cout << "\tProject\t" << stu.getProjectGrade() << "%" << endl;
+                            cout << "\tQuiz\t" << stu.getQuizGrade() << "%" << endl;
+                            cout << "\tMidterm\t" << stu.getMidtermGrade() << "%" << endl;
+                            cout << "\tFinalt\t" << stu.getFinalGrade() << "%" << endl;
+                            cout << "\tOverall\t" << stu.getOverallGrade() << "%" << endl;
+                            return 0;
+                        }
+                    } else if ( query == 2) {
+                        int gradeType;
+                        cout << "Grade types,\n\t1 - Project grade\n\t2 - Quiz grade\n\t3 - Midterm grade\n\t4 - Final grade\n\t5 - Overall grade\nSelect a grade type to view stats: ";
+                        cin >> gradeType;
+                        if (gradeType == 1) {
+                            cout << "Overall grade stats,\nmin\t";
+                            inst.getMinStudent(students, 1);
+                            cout << "max\t";
+                            inst.getMaxStudent(students, 1);
+                            cout << "avg\t";
+                            inst.getAvg(students, 1);
+                            return 0;
+                        } else if (gradeType == 2) {
+                            cout << "Overall grade stats,\nmin\t";
+                            inst.getMinStudent(students, 2);
+                            cout << "max\t";
+                            inst.getMaxStudent(students, 2);
+                            cout << "avg\t";
+                            inst.getAvg(students, 2);
+                            return 0;
+                        } else if (gradeType == 3) {
+                            cout << "Overall grade stats,\nmin\t";
+                            inst.getMinStudent(students, 3);
+                            cout << "max\t";
+                            inst.getMaxStudent(students, 3);
+                            cout << "avg\t";
+                            inst.getAvg(students, 3);
+                            return 0;
+                        } else if (gradeType == 4) {
+                            cout << "Overall grade stats,\nmin\t";
+                            inst.getMinStudent(students, 4);
+                            cout << "max\t";
+                            inst.getMaxStudent(students, 4);
+                            cout << "avg\t";
+                            inst.getAvg(students, 4);
+                            return 0;
+                        } else if (gradeType == 5) {
+                            cout << "Overall grade stats,\nmin\t";
+                            inst.getMinStudent(students, 5);
+                            cout << "max\t";
+                            inst.getMaxStudent(students, 5);
+                            cout << "avg\t";
+                            inst.getAvg(students, 5);
+                            return 0;
+                        } else {
+                            cout << "Invalid option. Please enter a valid option." << endl;
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        }
+                    } else {
+                        cout << "Invalid option. Please enter a valid option." << endl;
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    } // instructor decision loop.
                 }
             } else {
-
+                cout << "Login as instructor failed." << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                return 0;
             }
         }
     }
@@ -118,17 +200,23 @@ int studentAccount() {
                         return 0;
                     } else {
                         cout << "Invalid option, please try again." << endl;
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
                     }
                 }
             }
         }
         cout << "Login as student failed" << endl;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return 0;
     }
     return 0;
 } // studentAccount
 
 int main(int argc, char *argv[]) {
+
+    int numStuds, numInsts, userType;
 
     /* Check that program was launched with correct files. */
     if (argc != 3) {
@@ -139,9 +227,10 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    int userType;
-    createStudents();
+
     createInstructors();
+    createStudents();
+
     cout << "Parsing instructors and students information success.\n..." << endl;
 
     /* While loop where the user interacts*/
@@ -155,9 +244,11 @@ int main(int argc, char *argv[]) {
             studentAccount();
         } else if (userType == 3) {
             return(0);
-        } else if (!isdigit(userType)) {
-            cout << "Invalid option. Please enter a valid option." << endl;
-            break;
+        } else {
+            //clear cin so it only displays error once.
+            cerr << "Invalid option. Please enter a valid option." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
         } // main interface loop.
     } // while
 
