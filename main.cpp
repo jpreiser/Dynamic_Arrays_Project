@@ -76,10 +76,10 @@ int instructorAccount(Instructor instructors[], Student students[], int numInsts
     while(1) {
         for (int i = 0; i < numInsts; i++) {
             if (instructors[i].login(iUser, iPass)) {
+                cout << "You are now logged in as instructor " << inst.getInstructorName()
+                         << "." << endl;
                 while (1) {
                     inst = instructors[i];
-                    cout << "You are now logged in as instructor " << inst.getInstructorName()
-                         << "." << endl;
                     cout << "Query options,\n\t1 - view grades of a student\n\t2 - view stats"
                          << endl;
                     cout << "Enter option number: ";

@@ -1,5 +1,5 @@
 Jacob Reiser
-810 678 011
+810 687 011
 Data Structures Assignment 1
 
 To compile the code, type 'make' into the command line.
