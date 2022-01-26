@@ -4,20 +4,20 @@
 #include <string>
 #include <cstring>
 #include <limits>
+#include <iterator>
+#include <vector>
 #include "Student.h"
 #include "Instructor.h"
 
 using namespace std;
-
-Student students[20];
-Instructor instructors[3];
 
 /* A method to print the greeting to the user */
 void printGreeting() {
     cout << "User types,\n\t1 - Instructor\n\t2 - Student" << endl;
 } // printGreeting
 
-void createStudents() {
+/* A method for creating an array of student objects based on text file input. */
+void createStudents(Student students[], int numStuds) {
 
     int i = 0;
     ifstream sFile ("students.txt");
@@ -28,7 +28,7 @@ void createStudents() {
         int pgrade, qgrade, mgrade, fgrade;
 
         while (sFile >> username >> password >> fname >> lname >> pgrade >>
-               qgrade >> mgrade >> fgrade && i <= 20) {
+               qgrade >> mgrade >> fgrade && i <= numStuds) {
             students[i].setUserName(username);
             students[i].setPassword(password);
             students[i].setStudentName(fname, lname);
@@ -43,14 +43,15 @@ void createStudents() {
 
 } // createStudents
 
-void createInstructors() {
+/* A method for creating an array of instructor objects based on text file input. */
+void createInstructors(Instructor instructors[], int numInsts) {
 
     int j = 0;
     ifstream iFile("instructors.txt");
 
     if (iFile.is_open()) {
         string username, password, fname, lname;
-        while(iFile >> username >> password >> fname >> lname && j <= 3) {
+        while(iFile >> username >> password >> fname >> lname && j <= numInsts) {
             instructors[j].setUserName(username);
             instructors[j].setPassword(password);
             instructors[j].setInstructorName(fname, lname);
@@ -60,11 +61,11 @@ void createInstructors() {
             //cout << username << " " << password << endl;
         }
     }
-
+    iFile.close();
 } // createInstructors
 
 /* The method to run if an instructor account is selected. */
-int instructorAccount() {
+int instructorAccount(Instructor instructors[], Student students[], int numInsts) {
 
     Student stu;
     Instructor inst;
@@ -78,7 +79,7 @@ int instructorAccount() {
     cin >> iPass;
 
     while(1) {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < numInsts; i++) {
             if (instructors[i].login(iUser, iPass)) {
                 inst = instructors[i];
                 cout << "You are now logged in as instructor " << inst.getInstructorName()
@@ -168,7 +169,7 @@ int instructorAccount() {
 } // instructorAccount
 
 /* The method to run if a student account is selected. */
-int studentAccount() {
+int studentAcccount(Student students[], int numStuds) {
 
     string sUser, sPass, viewGrades;
     int i;
@@ -181,7 +182,7 @@ int studentAccount() {
     // main loop of student account
     while(1) {
         // check for successful login
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < numStuds; i++) {
             if (students[i].login(sUser, sPass)) {
                 while (1) {
                     cout << "You are now logged in as student " <<
@@ -227,9 +228,24 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    // Check the number of lines in the files for the number of students/instructors to be created.
+    string sline, iline;
+    ifstream sFile("students.txt");
+    while (getline(sFile, sline)) {
+        numStuds ++;
+    }
+    ifstream iFile("instructors.txt");
+    while (getline(iFile, iline)) {
+        numInsts++;
+    }
 
-    createInstructors();
-    createStudents();
+    //Dynamic arrays based on the number of lines in each file.
+    Student * students = new Student[numStuds];
+    Instructor * instructors = new Instructor[numInsts];
+
+    // Create Instructors and Students arrays by reference.
+    createInstructors(instructors, numInsts);
+    createStudents(students, numStuds);
 
     cout << "Parsing instructors and students information success.\n..." << endl;
 
@@ -239,10 +255,12 @@ int main(int argc, char *argv[]) {
         cout << "Select a login user type or enter 3 to exit: ";
         cin >> userType;
         if (userType == 1) {
-            instructorAccount();
+            instructorAccount(instructors, students, numInsts);
         } else if (userType == 2) {
-            studentAccount();
+            studentAcccount(students, numStuds);
         } else if (userType == 3) {
+            delete[] instructors;
+            delete[] students;
             return(0);
         } else {
             //clear cin so it only displays error once.
