@@ -53,7 +53,6 @@ void createInstructors(Instructor instructors[], int numInsts) {
             instructors[j].setUserName(username);
             instructors[j].setPassword(password);
             instructors[j].setInstructorName(fname, lname);
-            cout << instructors[j].getInstructorName() << endl;
             j = j + 1;
         }
     }
@@ -77,8 +76,8 @@ int instructorAccount(Instructor instructors[], Student students[], int numInsts
     while(1) {
         for (int i = 0; i < numInsts; i++) {
             if (instructors[i].login(iUser, iPass)) {
-                cout << "You are now logged in as instructor " << inst.getInstructorName()
-                         << "." << endl;
+                cout << "You are now logged in as instructor " <<
+                    instructors[i].getInstructorName() << "." << endl;
                 while (1) {
                     inst = instructors[i];
                     cout << "Query options,\n\t1 - view grades of a student\n\t2 - view stats"
@@ -86,17 +85,19 @@ int instructorAccount(Instructor instructors[], Student students[], int numInsts
                     cout << "Enter option number: ";
                     cin >> query;
                     if (query == 1) {
-                        cout << "Enter student username to view grades: ";
-                        cin >> sUser;
-                        stu = inst.getStudent(students, sUser, numStuds);
-                        if (stu.isSet()) {
-                            cout << "\tStudent name: " << stu.getStudentName() << endl;
-                            cout << "\tProject\t" << stu.getProjectGrade() << "%" << endl;
-                            cout << "\tQuiz\t" << stu.getQuizGrade() << "%" << endl;
-                            cout << "\tMidterm\t" << stu.getMidtermGrade() << "%" << endl;
-                            cout << "\tFinalt\t" << stu.getFinalGrade() << "%" << endl;
-                            cout << "\tOverall\t" << stu.getOverallGrade() << "%" << endl;
-                            return 0;
+                        while(1) {
+                            cout << "Enter student username to view grades: ";
+                            cin >> sUser;
+                            stu = inst.getStudent(students, sUser, numStuds);
+                            if (stu.isSet()) {
+                                cout << "Student name: " << stu.getStudentName() << endl;
+                                cout << "\tProject\t" << stu.getProjectGrade() << "%" << endl;
+                                cout << "\tQuiz\t" << stu.getQuizGrade() << "%" << endl;
+                                cout << "\tMidterm\t" << stu.getMidtermGrade() << "%" << endl;
+                                cout << "\tFinalt\t" << stu.getFinalGrade() << "%" << endl;
+                                cout << "\tOverall\t" << stu.getOverallGrade() << "%" << endl;
+                                return 0;
+                            }
                         }
                     } else if ( query == 2) {
                         while (1) {
@@ -104,43 +105,43 @@ int instructorAccount(Instructor instructors[], Student students[], int numInsts
                             cout << "Grade types,\n\t1 - Project grade\n\t2 - Quiz grade\n\t3 - Midterm grade\n\t4 - Final grade\n\t5 - Overall grade\nSelect a grade type to view stats: ";
                             cin >> gradeType;
                             if (gradeType == 1) {
-                                cout << "Overall grade stats,\nmin\t";
+                                cout << "Project grade stats,\n\tmin\t";
                                 inst.getMinStudent(students, 1, numStuds);
-                                cout << "max\t";
+                                cout << "\tmax\t";
                                 inst.getMaxStudent(students, 1, numStuds);
-                                cout << "avg\t";
+                                cout << "\tavg\t";
                                 inst.getAvg(students, 1, numStuds);
                                 return 0;
                             } else if (gradeType == 2) {
-                                cout << "Overall grade stats,\nmin\t";
+                                cout << "Quiz grade stats,\n\tmin\t";
                                 inst.getMinStudent(students, 2, numStuds);
-                                cout << "max\t";
+                                cout << "\tmax\t";
                                 inst.getMaxStudent(students, 2, numStuds);
-                                cout << "avg\t";
+                                cout << "\tavg\t";
                                 inst.getAvg(students, 2, numStuds);
                                 return 0;
                             } else if (gradeType == 3) {
-                                cout << "Overall grade stats,\nmin\t";
+                                cout << "Midterm grade stats,\n\tmin\t";
                                 inst.getMinStudent(students, 3, numStuds);
-                                cout << "max\t";
+                                cout << "\tmax\t";
                                 inst.getMaxStudent(students, 3, numStuds);
-                                cout << "avg\t";
+                                cout << "\tavg\t";
                                 inst.getAvg(students, 3, numStuds);
                                 return 0;
                             } else if (gradeType == 4) {
-                                cout << "Overall grade stats,\nmin\t";
+                                cout << "Final grade stats,\n\tmin\t";
                                 inst.getMinStudent(students, 4, numStuds);
-                                cout << "max\t";
+                                cout << "\tmax\t";
                                 inst.getMaxStudent(students, 4, numStuds);
-                                cout << "avg\t";
+                                cout << "\tavg\t";
                                 inst.getAvg(students, 4, numStuds);
                                 return 0;
                             } else if (gradeType == 5) {
-                                cout << "Overall grade stats,\nmin\t";
+                                cout << "Overall grade stats,\n\tmin\t";
                                 inst.getMinStudent(students, 5, numStuds);
-                                cout << "max\t";
+                                cout << "\tmax\t";
                                 inst.getMaxStudent(students, 5, numStuds);
-                                cout << "avg\t";
+                                cout << "\tavg\t";
                                 inst.getAvg(students, 5, numStuds);
                                 return 0;
                             } else {

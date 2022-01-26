@@ -19,7 +19,7 @@ bool Instructor::login(string u, string p) {
         log = false;
     }
     return log;
-    
+
 } // login
 
 /* Retreives the instructor's full name so that the message "You are now
@@ -157,7 +157,7 @@ void Instructor::getAvg(Student students[], int gradeType, int numStuds) {
     Student stu;
     int i;
     double avg = 0;
-    int sum = 0;
+    double sum = 0;
 
     if (gradeType == 1) {
         for (i = 0; i < numStuds; i++) {
