@@ -8,6 +8,10 @@ To run, type './make instructors.txt students.txt' into the command line.
 
 To clean the directory, type 'make clean' into the directory.
 
+Currently ./main runs on the supplied instructors.txt and students.txt files. For a different
+set of students and instructors, either alter the provided files or delete and replace
+them with files of the same name.
+
 A really interesting project. The first time I've worked this extensively with classes as
 a data structure and I really enjoyed it!. The program starts in main, checks that the
 program was initialized in the above format and then checks the files for the number of
