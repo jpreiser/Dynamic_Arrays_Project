@@ -28,16 +28,16 @@ public:
     /* Given the username of a student, allows the instructor to see the grades
        of the student provided.
      */
-    Student getStudent(Student students[], string username);
+    Student getStudent(Student students[], string username, int numStuds);
 
     /* Retrieves the student with the lowest grade of a given type. */
-    void getMinStudent(Student students[], int gradeType);
+    void getMinStudent(Student students[], int gradeType, int numStuds);
 
     /* Retrieves the student with the highest grade of a given type. */
-    void getMaxStudent(Student students[], int gradeType);
+    void getMaxStudent(Student students[], int gradeType, int numStuds);
 
     /* Retrieves the average grade of all students for a given grade type */
-    void getAvg(Student students[], int gradeType);
+    void getAvg(Student students[], int gradeType, int numStuds);
 
     /* Sets the name of the instructor that has logged in. */
     void setInstructorName(string fName, string lName);
@@ -47,6 +47,7 @@ public:
 
     /* Sets the password of the instructor created. */
     void setPassword(string pass);
+    
 
 private:
     string fullName;

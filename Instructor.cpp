@@ -11,14 +11,15 @@ using namespace std;
    Given a username and password, checks if that is an instructor and their
    password, then returns True if the instructor succeeded or False if not.
 */
-bool Instructor::login(string username, string pword) {
+bool Instructor::login(string u, string p) {
     bool log;
-    if (username == userName && pword == password) {
-            log = true;
+    if (u == userName && p == password) {
+        log = true;
     } else {
         log = false;
     }
     return log;
+    
 } // login
 
 /* Retreives the instructor's full name so that the message "You are now
@@ -35,11 +36,11 @@ string Instructor::getUserName() {
 /* Given the username of a student, allows the instructor to see the grades
    of the student provided.
 */
-Student Instructor::getStudent(Student students[], string username) {
+Student Instructor::getStudent(Student students[], string username, int numStuds) {
     Student stu;
     int i;
     string user = username;
-    for (i = 0; i < 20; i++) {
+    for (i = 0; i < numStuds; i++) {
         if (students[i].getUserName() == user) {
             return students[i];
             stu = students[i];
@@ -51,12 +52,12 @@ Student Instructor::getStudent(Student students[], string username) {
 } // getstudent
 
 /* Retrieves the student with the lowest grade of a given type. */
-void Instructor::getMinStudent(Student students[], int gradeType) {
+void Instructor::getMinStudent(Student students[], int gradeType, int numStuds) {
     Student stu;
     int i;
     int min = 100;
     if (gradeType == 1) {
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < numStuds; i++) {
             if (students[i].getProjectGrade() < min) {
                 min = students[i].getProjectGrade();
                 stu = students[i];
@@ -64,7 +65,7 @@ void Instructor::getMinStudent(Student students[], int gradeType) {
         }
         cout << min << "%\t(" << stu.getStudentName() << ")" << endl;
     } else if (gradeType == 2) {
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < numStuds; i++) {
             if (students[i].getQuizGrade() < min) {
                 min = students[i].getQuizGrade();
                 stu = students[i];
@@ -72,7 +73,7 @@ void Instructor::getMinStudent(Student students[], int gradeType) {
         }
         cout << min << "%\t(" << stu.getStudentName() << ")" << endl;
     } else if (gradeType == 3) {
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < numStuds; i++) {
             if (students[i].getMidtermGrade() < min) {
                 min = students[i].getMidtermGrade();
                 stu = students[i];
@@ -80,7 +81,7 @@ void Instructor::getMinStudent(Student students[], int gradeType) {
         }
         cout << min << "%\t(" << stu.getStudentName() << ")" << endl;
     } else if (gradeType == 4) {
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < numStuds; i++) {
             if (students[i].getFinalGrade() < min) {
                 min = students[i].getFinalGrade();
                 stu = students[i];
@@ -88,7 +89,7 @@ void Instructor::getMinStudent(Student students[], int gradeType) {
         }
         cout << min << "%\t(" << stu.getStudentName() << ")" << endl;
     } else if (gradeType == 5) {
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < numStuds; i++) {
             if (students[i].getOverallGrade() < min) {
                 min = students[i].getOverallGrade();
                 stu = students[i];
@@ -102,12 +103,12 @@ void Instructor::getMinStudent(Student students[], int gradeType) {
 } // getminstudent
 
 /* Retrieves the student with the highest grade of a given type. */
-void Instructor::getMaxStudent(Student students[], int gradeType) {
+void Instructor::getMaxStudent(Student students[], int gradeType, int numStuds) {
     Student stu;
     int i;
     int max = 0;
     if (gradeType == 1) {
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < numStuds; i++) {
             if (students[i].getProjectGrade() > max) {
                 max = students[i].getProjectGrade();
                 stu = students[i];
@@ -115,7 +116,7 @@ void Instructor::getMaxStudent(Student students[], int gradeType) {
         }
         cout << max << "%\t(" << stu.getStudentName() << ")" << endl;
     } else if (gradeType == 2) {
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < numStuds; i++) {
             if (students[i].getQuizGrade() > max) {
                 max = students[i].getQuizGrade();
                 stu = students[i];
@@ -123,7 +124,7 @@ void Instructor::getMaxStudent(Student students[], int gradeType) {
         }
         cout << max << "%\t(" << stu.getStudentName() << ")" << endl;
     } else if (gradeType == 3) {
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < numStuds; i++) {
             if (students[i].getMidtermGrade() > max) {
                 max = students[i].getMidtermGrade();
                 stu = students[i];
@@ -131,7 +132,7 @@ void Instructor::getMaxStudent(Student students[], int gradeType) {
         }
         cout << max << "%\t(" << stu.getStudentName() << ")" << endl;
     } else if (gradeType == 4) {
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < numStuds; i++) {
             if (students[i].getFinalGrade() > max) {
                 max = students[i].getFinalGrade();
                 stu = students[i];
@@ -139,7 +140,7 @@ void Instructor::getMaxStudent(Student students[], int gradeType) {
         }
         cout << max << "%\t(" << stu.getStudentName() << ")" << endl;
     } else if (gradeType == 5) {
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < numStuds; i++) {
             if (students[i].getOverallGrade() > max) {
                 max = students[i].getOverallGrade();
                 stu = students[i];
@@ -152,37 +153,37 @@ void Instructor::getMaxStudent(Student students[], int gradeType) {
 } // getmaxstudent
 
 /* Retrieves the average grade of all students for a given grade type */
-void Instructor::getAvg(Student students[], int gradeType) {
+void Instructor::getAvg(Student students[], int gradeType, int numStuds) {
     Student stu;
     int i;
     double avg = 0;
     int sum = 0;
 
     if (gradeType == 1) {
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < numStuds; i++) {
             sum = sum + students[i].getProjectGrade();
         }
-        avg = sum / 20;
+        avg = sum / numStuds;
     } else if (gradeType == 2) {
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < numStuds; i++) {
             sum = sum + students[i].getQuizGrade();
         }
-        avg = sum / 20;
+        avg = sum / numStuds;
     } else if (gradeType == 3) {
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < numStuds; i++) {
             sum = sum + students[i].getMidtermGrade();
         }
-        avg = sum / 20;
+        avg = sum / numStuds;
     } else if (gradeType == 4) {
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < numStuds; i++) {
             sum = sum + students[i].getFinalGrade();
         }
-        avg = sum / 20;
+        avg = sum / numStuds;
     } else if (gradeType == 5) {
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < numStuds; i++) {
             sum = sum + students[i].getOverallGrade();
         }
-        avg = sum / 20;
+        avg = sum / numStuds;
     } else {
         cout << "Invalid grade type, please enter 1 - 5." << endl;
     }

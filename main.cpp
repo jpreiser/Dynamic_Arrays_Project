@@ -5,7 +5,6 @@
 #include <cstring>
 #include <limits>
 #include <iterator>
-#include <vector>
 #include "Student.h"
 #include "Instructor.h"
 
@@ -28,7 +27,7 @@ void createStudents(Student students[], int numStuds) {
         int pgrade, qgrade, mgrade, fgrade;
 
         while (sFile >> username >> password >> fname >> lname >> pgrade >>
-               qgrade >> mgrade >> fgrade && i <= numStuds) {
+               qgrade >> mgrade >> fgrade && i < numStuds) {
             students[i].setUserName(username);
             students[i].setPassword(password);
             students[i].setStudentName(fname, lname);
@@ -40,7 +39,6 @@ void createStudents(Student students[], int numStuds) {
         }
     }
     sFile.close();
-
 } // createStudents
 
 /* A method for creating an array of instructor objects based on text file input. */
@@ -51,21 +49,18 @@ void createInstructors(Instructor instructors[], int numInsts) {
 
     if (iFile.is_open()) {
         string username, password, fname, lname;
-        while(iFile >> username >> password >> fname >> lname && j <= numInsts) {
+        while(iFile >> username >> password >> fname >> lname && j < numInsts) {
             instructors[j].setUserName(username);
             instructors[j].setPassword(password);
             instructors[j].setInstructorName(fname, lname);
-            cout << "creating teacher " << j << endl;
-            cout << instructors[j].getUserName() << endl;
             j = j + 1;
-            //cout << username << " " << password << endl;
         }
     }
     iFile.close();
 } // createInstructors
 
 /* The method to run if an instructor account is selected. */
-int instructorAccount(Instructor instructors[], Student students[], int numInsts) {
+int instructorAccount(Instructor instructors[], Student students[], int numInsts, int numStuds) {
 
     Student stu;
     Instructor inst;
@@ -81,10 +76,10 @@ int instructorAccount(Instructor instructors[], Student students[], int numInsts
     while(1) {
         for (int i = 0; i < numInsts; i++) {
             if (instructors[i].login(iUser, iPass)) {
-                inst = instructors[i];
-                cout << "You are now logged in as instructor " << inst.getInstructorName()
-                     << "." << endl;
-                while(1) {
+                while (1) {
+                    inst = instructors[i];
+                    cout << "You are now logged in as instructor " << inst.getInstructorName()
+                         << "." << endl;
                     cout << "Query options,\n\t1 - view grades of a student\n\t2 - view stats"
                          << endl;
                     cout << "Enter option number: ";
@@ -92,7 +87,7 @@ int instructorAccount(Instructor instructors[], Student students[], int numInsts
                     if (query == 1) {
                         cout << "Enter student username to view grades: ";
                         cin >> sUser;
-                        stu = inst.getStudent(students, sUser);
+                        stu = inst.getStudent(students, sUser, numStuds);
                         if (stu.isSet()) {
                             cout << "\tStudent name: " << stu.getStudentName() << endl;
                             cout << "\tProject\t" << stu.getProjectGrade() << "%" << endl;
@@ -108,43 +103,43 @@ int instructorAccount(Instructor instructors[], Student students[], int numInsts
                         cin >> gradeType;
                         if (gradeType == 1) {
                             cout << "Overall grade stats,\nmin\t";
-                            inst.getMinStudent(students, 1);
+                            inst.getMinStudent(students, 1, numStuds);
                             cout << "max\t";
-                            inst.getMaxStudent(students, 1);
+                            inst.getMaxStudent(students, 1, numStuds);
                             cout << "avg\t";
-                            inst.getAvg(students, 1);
+                            inst.getAvg(students, 1, numStuds);
                             return 0;
                         } else if (gradeType == 2) {
                             cout << "Overall grade stats,\nmin\t";
-                            inst.getMinStudent(students, 2);
+                            inst.getMinStudent(students, 2, numStuds);
                             cout << "max\t";
-                            inst.getMaxStudent(students, 2);
+                            inst.getMaxStudent(students, 2, numStuds);
                             cout << "avg\t";
-                            inst.getAvg(students, 2);
+                            inst.getAvg(students, 2, numStuds);
                             return 0;
                         } else if (gradeType == 3) {
                             cout << "Overall grade stats,\nmin\t";
-                            inst.getMinStudent(students, 3);
+                            inst.getMinStudent(students, 3, numStuds);
                             cout << "max\t";
-                            inst.getMaxStudent(students, 3);
+                            inst.getMaxStudent(students, 3, numStuds);
                             cout << "avg\t";
-                            inst.getAvg(students, 3);
+                            inst.getAvg(students, 3, numStuds);
                             return 0;
                         } else if (gradeType == 4) {
                             cout << "Overall grade stats,\nmin\t";
-                            inst.getMinStudent(students, 4);
+                            inst.getMinStudent(students, 4, numStuds);
                             cout << "max\t";
-                            inst.getMaxStudent(students, 4);
+                            inst.getMaxStudent(students, 4, numStuds);
                             cout << "avg\t";
-                            inst.getAvg(students, 4);
+                            inst.getAvg(students, 4, numStuds);
                             return 0;
                         } else if (gradeType == 5) {
                             cout << "Overall grade stats,\nmin\t";
-                            inst.getMinStudent(students, 5);
+                            inst.getMinStudent(students, 5, numStuds);
                             cout << "max\t";
-                            inst.getMaxStudent(students, 5);
+                            inst.getMaxStudent(students, 5, numStuds);
                             cout << "avg\t";
-                            inst.getAvg(students, 5);
+                            inst.getAvg(students, 5, numStuds);
                             return 0;
                         } else {
                             cout << "Invalid option. Please enter a valid option." << endl;
@@ -157,14 +152,15 @@ int instructorAccount(Instructor instructors[], Student students[], int numInsts
                         cin.ignore(numeric_limits<streamsize>::max(), '\n');
                     } // instructor decision loop.
                 }
-            } else {
-                cout << "Login as instructor failed." << endl;
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                return 0;
             }
+
         }
+        cout << "Login as instructor failed." << endl;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return 0;
     }
+
     return 0;
 } // instructorAccount
 
@@ -181,7 +177,6 @@ int studentAcccount(Student students[], int numStuds) {
 
     // main loop of student account
     while(1) {
-        // check for successful login
         for (i = 0; i < numStuds; i++) {
             if (students[i].login(sUser, sPass)) {
                 while (1) {
@@ -255,7 +250,7 @@ int main(int argc, char *argv[]) {
         cout << "Select a login user type or enter 3 to exit: ";
         cin >> userType;
         if (userType == 1) {
-            instructorAccount(instructors, students, numInsts);
+            instructorAccount(instructors, students, numInsts, numStuds);
         } else if (userType == 2) {
             studentAcccount(students, numStuds);
         } else if (userType == 3) {
